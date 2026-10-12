@@ -4,9 +4,11 @@
     "": {
       "name": ".",
       "dependencies": {
+        "@langchain/core": "^1.2.17",
         "@langchain/groq": "^1.3.1",
         "@langchain/langgraph": "^1.4.21",
         "dotenv": "^18.0.7",
+        "zod": "^4.6.6",
       },
       "devDependencies": {
         "@types/bun": "latest",
