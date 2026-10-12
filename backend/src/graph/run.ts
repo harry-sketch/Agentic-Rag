@@ -1,17 +1,21 @@
+import "dotenv/config";
 import { app } from "./workflow.ts";
 
 export const runWorkflow = async () => {
   try {
-    const completions = await app.invoke({
-      messages: {
-        role: "human",
-        content: "",
-      },
+    const stream = await app.stream({
+      messages: [
+        {
+          role: "human",
+          content: "Do you have any offer going on ?",
+        },
+      ],
     });
-
-    console.log(
-      `Assistant: ${completions.messages[completions.messages.length - 1]?.content}`,
-    );
+    for await (const value of stream) {
+      console.log("--- STEP ---");
+      console.log(value);
+      console.log("--- STEP ---");
+    }
   } catch (error) {
     console.log("Something went wrong", error);
   }

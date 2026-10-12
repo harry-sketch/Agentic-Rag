@@ -2,15 +2,15 @@ import { AIMessage } from "@langchain/core/messages";
 import type { TStateType } from "../../../types/types.ts";
 
 export const routingDecision = (state: TStateType) => {
-  if (state.nextRepresentative === "learning team") {
+  if (state.nextRepresentative === "learning") {
     return "learning";
   }
 
-  if (state.nextRepresentative === "marketing team") {
+  if (state.nextRepresentative === "marketing") {
     return "marketing";
   }
 
-  if (state.nextRepresentative === "responding conversationally") {
+  if (state.nextRepresentative === "conversation") {
     return "end";
   }
 

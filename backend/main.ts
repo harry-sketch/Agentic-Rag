@@ -1,7 +1,5 @@
 import "dotenv/config";
-import { runWorkflow } from "./src/graph/run.ts";
-
-console.log("Hello via Bun!");
+import { runWorkflow } from "./src/graph/run";
 
 const main = async () => {
   await runWorkflow();
