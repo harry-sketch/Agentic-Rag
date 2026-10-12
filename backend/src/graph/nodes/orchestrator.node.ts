@@ -1,11 +1,11 @@
 import { SystemMessage, trimMessages } from "@langchain/core/messages";
-import type { TStateType } from "../../../types/types.ts";
 import { groqModel } from "../../llm/groq.model.ts";
 import {
   CATEGORIZATION_HUMAN_PROMPT,
   CATEGORIZATION_SYSTEM_PROMPT,
   SYSTEM_PROMPT,
 } from "../../prompts/index.ts";
+import type { TStateType } from "../../types/types.ts";
 
 export const orchestratorNode = async (state: TStateType) => {
   const recentMessages = await trimMessages(state.messages, {

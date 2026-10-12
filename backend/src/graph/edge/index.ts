@@ -1,5 +1,5 @@
 import { AIMessage } from "@langchain/core/messages";
-import type { TStateType } from "../../../types/types.ts";
+import type { TStateType } from "../../types/types.ts";
 
 export const routingDecision = (state: TStateType) => {
   if (state.nextRepresentative === "learning") {
