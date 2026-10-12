@@ -1,5 +1,15 @@
-import type { TStateType } from "../types/types.ts";
+import { tool } from "@langchain/core/tools";
 
-export const learningTool = (state: TStateType) => {
-  return state;
-};
+export const getLearning = tool(
+  async () => {
+    return JSON.stringify([
+      {
+        message: "You should join ai agentic course",
+      },
+    ]);
+  },
+  {
+    name: "",
+    description: "",
+  },
+);

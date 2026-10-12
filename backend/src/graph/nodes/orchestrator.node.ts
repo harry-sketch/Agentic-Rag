@@ -8,39 +8,48 @@ import {
 import type { TStateType } from "../../types/types.ts";
 
 export const orchestratorNode = async (state: TStateType) => {
-  const recentMessages = await trimMessages(state.messages, {
-    maxTokens: 6,
-    tokenCounter: (msg) => msg.length,
-    startOn: "human",
-    strategy: "last",
-  });
+  try {
+    const recentMessages = await trimMessages(state.messages, {
+      maxTokens: 6,
+      tokenCounter: (msg) => msg.length,
+      startOn: "human",
+      strategy: "last",
+    });
 
-  const finalResp = await groqModel.invoke([
-    new SystemMessage(SYSTEM_PROMPT),
-    ...recentMessages,
-  ]);
+    const finalResp = await groqModel.invoke([
+      new SystemMessage(SYSTEM_PROMPT),
+      ...recentMessages,
+    ]);
 
-  const categorizationResp = await groqModel.invoke(
-    [
-      new SystemMessage(CATEGORIZATION_SYSTEM_PROMPT),
-      ...state.messages,
-      { role: "human", content: CATEGORIZATION_HUMAN_PROMPT },
-    ],
-    {
-      response_format: {
-        type: "json_object",
+    const categorizationResp = await groqModel.invoke(
+      [
+        new SystemMessage(CATEGORIZATION_SYSTEM_PROMPT),
+        ...state.messages,
+        finalResp,
+        { role: "human", content: CATEGORIZATION_HUMAN_PROMPT },
+      ],
+      {
+        response_format: {
+          type: "json_object",
+        },
       },
-    },
-  );
+    );
 
-  const nextRepresentative = JSON.parse(
-    categorizationResp.content as string,
-  ).nextRepresentative;
+    const nextRepresentative = JSON.parse(
+      categorizationResp.content as string,
+    ).nextRepresentative;
 
-  console.log({ nextRepresentative, finalResp });
+    console.log({ nextRepresentative, finalResp });
 
-  return {
-    message: [finalResp],
-    nextRepresentative,
-  };
+    return {
+      message: [finalResp],
+      nextRepresentative,
+    };
+  } catch (error) {
+    console.log("Someting went wrong.", error);
+    return {
+      message: [],
+      nextRepresentative: "conversation",
+    };
+  }
 };

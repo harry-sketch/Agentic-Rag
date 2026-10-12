@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { app } from "./workflow.ts";
 
 export const runWorkflow = async () => {
@@ -7,7 +6,7 @@ export const runWorkflow = async () => {
       messages: [
         {
           role: "human",
-          content: "Do you have any offer going on ?",
+          content: "Can i get any discount code ?",
         },
       ],
     });

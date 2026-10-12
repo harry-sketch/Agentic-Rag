@@ -1,6 +1,5 @@
 import { END, START, StateGraph } from "@langchain/langgraph";
-import { learningTool } from "../tools/learning.tool.ts";
-import { marketingTool } from "../tools/marketing.tool.ts";
+import { learningToolNode, marketingToolNode } from "../tools/index.ts";
 import { learningOrch, marketingOrch, routingDecision } from "./edge/index.ts";
 import { learningNode } from "./nodes/learning.node";
 import { marketingNode } from "./nodes/marketing.node.ts";
@@ -11,8 +10,8 @@ const State = new StateGraph(StateAnnotation)
   .addNode("routing-orchestrator", orchestratorNode)
   .addNode("marketing", marketingNode)
   .addNode("learning", learningNode)
-  .addNode("marketing-tool", marketingTool)
-  .addNode("learning-tool", learningTool)
+  .addNode("marketing-tool", marketingToolNode)
+  .addNode("learning-tool", learningToolNode)
   .addEdge(START, "routing-orchestrator")
   .addEdge("marketing-tool", "marketing")
   .addEdge("learning-tool", "learning")
