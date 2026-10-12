@@ -1,18 +1,48 @@
 import { SystemMessage, trimMessages } from "@langchain/core/messages";
 import type { TStateType } from "../../../types/types.ts";
 import { groqModel } from "../../llm/groq.model.ts";
-import { SYSTEM_PROMPT } from "../../prompts/index.ts";
+import {
+  CATEGORIZATION_HUMAN_PROMPT,
+  CATEGORIZATION_SYSTEM_PROMPT,
+  SYSTEM_PROMPT,
+} from "../../prompts/index.ts";
 
 export const orchestratorNode = async (state: TStateType) => {
-  const recentMsg = await trimMessages(state.messages, {
+  const recentMessages = await trimMessages(state.messages, {
     maxTokens: 6,
     tokenCounter: (msg) => msg.length,
     startOn: "human",
     strategy: "last",
   });
 
-  const orchresp = await groqModel.invoke([
+  const finalResp = await groqModel.invoke([
     new SystemMessage(SYSTEM_PROMPT),
-    ...recentMsg,
+    ...recentMessages,
   ]);
+
+  const categorizationResp = await groqModel.invoke(
+    [
+      {
+        role: "system",
+        content: CATEGORIZATION_SYSTEM_PROMPT,
+      },
+      ...state.messages,
+
+      { role: "human", content: CATEGORIZATION_HUMAN_PROMPT },
+    ],
+    {
+      response_format: {
+        type: "json_object",
+      },
+    },
+  );
+
+  const nextRepresentative = JSON.parse(
+    categorizationResp.content as string,
+  ).nextRepresentative;
+
+  return {
+    message: [finalResp],
+    nextRepresentative,
+  };
 };
