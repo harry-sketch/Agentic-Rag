@@ -22,12 +22,8 @@ export const orchestratorNode = async (state: TStateType) => {
 
   const categorizationResp = await groqModel.invoke(
     [
-      {
-        role: "system",
-        content: CATEGORIZATION_SYSTEM_PROMPT,
-      },
+      new SystemMessage(CATEGORIZATION_SYSTEM_PROMPT),
       ...state.messages,
-
       { role: "human", content: CATEGORIZATION_HUMAN_PROMPT },
     ],
     {
@@ -40,6 +36,8 @@ export const orchestratorNode = async (state: TStateType) => {
   const nextRepresentative = JSON.parse(
     categorizationResp.content as string,
   ).nextRepresentative;
+
+  console.log({ nextRepresentative, finalResp });
 
   return {
     message: [finalResp],
