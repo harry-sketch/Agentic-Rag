@@ -41,6 +41,8 @@ export const orchestratorNode = async (state: TStateType) => {
     categorisationResp.content as string,
   ).nextRepresentative;
 
+  console.log("from main orchestrator", { nextRepresentative });
+
   return {
     messages: [finalResp],
     nextRepresentative,

@@ -1,8 +1,8 @@
 import "dotenv/config";
-import { runAgent } from "./src/graph/run.ts";
+import { runWorkflow } from "./src/graph/run-workflow.ts";
 
 const main = async () => {
-  await runAgent();
+  await runWorkflow();
 };
 
 main();
