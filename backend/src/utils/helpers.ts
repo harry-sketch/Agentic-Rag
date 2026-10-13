@@ -42,3 +42,9 @@ export const getSplittedTexts = async (docs: TDocsType) => {
     console.log("Something went wrong while splitting docs into text", error);
   }
 };
+
+export const config = {
+  configurable: {
+    thread_id: "1",
+  },
+};

@@ -1,4 +1,4 @@
-import { END, START, StateGraph } from "@langchain/langgraph";
+import { END, MemorySaver, START, StateGraph } from "@langchain/langgraph";
 import { learningToolsNode, marketingToolsNode } from "../tools/index.ts";
 import {
   shouldContinue,
@@ -9,6 +9,8 @@ import { learningOrchestrator } from "./nodes/learning.orch.node.ts";
 import { marketingOrchetrator } from "./nodes/marketing.orch.node.ts";
 import { orchestratorNode } from "./nodes/orchestrator.node.ts";
 import { StateAnnotation } from "./state";
+
+const checkpointer = new MemorySaver();
 
 const workflow = new StateGraph(StateAnnotation)
   .addNode("orchestrator", orchestratorNode)
@@ -33,4 +35,6 @@ const workflow = new StateGraph(StateAnnotation)
     end: END,
   });
 
-export const app = workflow.compile();
+export const app = workflow.compile({
+  checkpointer,
+});

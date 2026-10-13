@@ -1,13 +1,17 @@
+import { config } from "../utils/helpers.ts";
 import { app } from "./workflow.ts";
 
 export const runWorkflow = async () => {
   try {
-    const values = await app.stream({
-      messages: {
-        role: "human",
-        content: "Which language the Gen Ai course is in ?",
+    const values = await app.stream(
+      {
+        messages: {
+          role: "human",
+          content: "Which language the Gen Ai course is in ?",
+        },
       },
-    });
+      config,
+    );
 
     for await (const value of values) {
       console.log("STEP ---->");
