@@ -1,24 +1,40 @@
+import { stdin, stdout } from "node:process";
+import { createInterface } from "node:readline/promises";
 import { config } from "../utils/helpers.ts";
 import { app } from "./workflow.ts";
 
 export const runWorkflow = async () => {
-  try {
-    const values = await app.stream(
-      {
-        messages: {
-          role: "human",
-          content: "Which language the Gen Ai course is in ?",
-        },
-      },
-      config,
-    );
+  const rl = createInterface({
+    input: stdin,
+    output: stdout,
+  });
 
-    for await (const value of values) {
-      console.log("STEP ---->");
-      console.log(value);
-      console.log("STEP ---->");
+  try {
+    while (true) {
+      const question = await rl.question("You: ");
+
+      if (question.toLowerCase().trim() === "bye") {
+        return "Good-Bye";
+      }
+
+      const completions = await app.invoke(
+        {
+          messages: {
+            role: "human",
+            content: question,
+          },
+        },
+        config,
+      );
+
+      const aiMsg =
+        completions.messages[completions.messages.length - 1]?.content;
+
+      console.log(`Assistant: ${aiMsg}`);
     }
   } catch (error) {
     console.log("Soemthing wwent wrong", error);
+  } finally {
+    rl.close();
   }
 };
