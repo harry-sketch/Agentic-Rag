@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import { stdin, stdout } from "node:process";
 import { createInterface } from "node:readline/promises";
 import { config } from "../utils/helpers.ts";
@@ -8,6 +9,14 @@ export const runWorkflow = async () => {
     input: stdin,
     output: stdout,
   });
+
+  const drawableGraphState = await app.getGraphAsync();
+
+  const drawableGraphStateImg = await drawableGraphState.drawMermaidPng();
+
+  const graphStateArrayBuffer = await drawableGraphStateImg.arrayBuffer();
+
+  writeFileSync("./arch.png", new Uint8Array(graphStateArrayBuffer));
 
   try {
     while (true) {
