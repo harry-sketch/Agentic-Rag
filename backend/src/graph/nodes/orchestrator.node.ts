@@ -42,7 +42,7 @@ export const orchestratorNode = async (state: TStateType) => {
   ).nextRepresentative;
 
   return {
-    message: [finalResp],
+    messages: [finalResp],
     nextRepresentative,
   };
 };
