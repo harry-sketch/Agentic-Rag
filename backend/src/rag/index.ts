@@ -1,7 +1,6 @@
 import path from "node:path";
 import { vectorStore } from "../pinecone/db.ts";
-import { getSplittedTexts } from "../utils/helpers.ts";
-import { loadDocs } from "./load.docs.ts";
+import { getSplittedTexts, loadDocs } from "../utils/helpers.ts";
 
 const filePath = path.resolve(import.meta.dirname, "../data/document.pdf");
 
