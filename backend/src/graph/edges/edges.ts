@@ -2,17 +2,17 @@ import { AIMessage } from "@langchain/core/messages";
 import type { TStateType } from "../../types/types.ts";
 
 export const shouldContinue = (state: TStateType) => {
-  const nextReprestative = state.nextReprestative;
+  const nextRepresentative = state.nextRepresentative;
 
-  if (nextReprestative === "marketing") {
+  if (["marketing", "marketingSupport"].includes(nextRepresentative)) {
     return "marketing_team";
   }
 
-  if (nextReprestative === "learning") {
+  if (["learning", "learningSupport"].includes(nextRepresentative)) {
     return "learning_team";
   }
 
-  if (nextReprestative === "conversational") {
+  if (nextRepresentative === "conversational") {
     return "end";
   }
 

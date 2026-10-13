@@ -5,7 +5,7 @@ export const runWorkflow = async () => {
     const values = await app.stream({
       messages: {
         role: "human",
-        content: "Can i get any discount code ?",
+        content: "Which language the Gen Ai course is in ?",
       },
     });
 

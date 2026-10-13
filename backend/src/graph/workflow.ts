@@ -20,8 +20,8 @@ const workflow = new StateGraph(StateAnnotation)
   .addEdge("marketing_tool", "marketing_orchestrator")
   .addEdge("learning_tool", "learning_orchestrator")
   .addConditionalEdges("orchestrator", shouldContinue, {
-    marketing_team: "marketing_tool",
-    learning_team: "learning_tool",
+    marketing_team: "marketing_orchestrator",
+    learning_team: "learning_orchestrator",
     end: END,
   })
   .addConditionalEdges("marketing_orchestrator", shouldContinueforMarketing, {

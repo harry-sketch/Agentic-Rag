@@ -2,5 +2,5 @@ import { Annotation, MessagesAnnotation } from "@langchain/langgraph";
 
 export const StateAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec,
-  nextReprestative: Annotation<string>,
+  nextRepresentative: Annotation<string>,
 });
